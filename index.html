@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Medical Assistant - Greek Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS 🎨 */
+        :root {
+            --primary-color: #000000; /* ดำ */
+            --secondary-color: #A30000; /* แดงเข้ม/มารูน */
+            --background-color: #F5F5F5; /* พื้นหลังสีเทาอ่อน */
+            --text-color: #333333;
+            --light-text-color: #FFFFFF;
+            --greek-pattern: repeating-linear-gradient(45deg, var(--secondary-color) 0, var(--secondary-color) 1px, transparent 1px, transparent 8px);
+        }
+
+        body {
+            font-family: 'Cinzel', serif; /* ใช้ Cinzel เป็นหลักสำหรับหัวข้อ */
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header / Navigation */
+        header {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 15px 0;
+            border-bottom: 5px solid var(--secondary-color);
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--secondary-color);
+            letter-spacing: 2px;
+        }
+
+        .tabs {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tab-item {
+            cursor: pointer;
+            padding: 10px 15px;
+            margin-left: 10px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+            transition: background-color 0.3s, color 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .tab-item.active {
+            border-bottom: 3px solid var(--secondary-color);
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        /* Section Styling */
+        section {
+            display: none;
+            padding: 40px 20px;
+            background-color: var(--light-text-color);
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        section.active {
+            display: block;
+        }
+
+        h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        /* Dashboard Cards 📊 */
+        #dashboard .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--secondary-color);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--secondary-color);
+        }
+
+        .card h3 {
+            margin-top: 5px;
+            font-size: 1.2em;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .card p {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+        
+        /* Form Styling */
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        input[type="file"], input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        button {
+            background-color: var(--secondary-color);
+            color: var(--light-text-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Cinzel', serif;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* Image Analysis Results */
+        #image-analysis-result {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px dashed var(--secondary-color);
+            background-color: #fff;
+        }
+
+        #analysis-image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            margin-top: 15px;
+        }
+        
+        /* Chatbot 💬 */
+        #chatbot-screen {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--primary-color);
+            background-color: #fff;
+        }
+
+        #chat-window {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            max-width: 80%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 15px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--secondary-color);
+            color: var(--light-text-color);
+            border-bottom-right-radius: 0;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            border-bottom-left-radius: 0;
+        }
+
+        #chat-input-form {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            background-color: var(--background-color);
+        }
+
+        #chat-input-form input {
+            flex-grow: 1;
+            margin-bottom: 0;
+            margin-right: 10px;
+        }
+
+        /* Patient Search Table 🔍 */
+        #patient-search-result table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        #patient-search-result th, #patient-search-result td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        #patient-search-result th {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            text-transform: uppercase;
+            font-family: 'Cinzel', serif;
+        }
+
+        #patient-search-result tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #patient-search-result tr:hover {
+            background-color: #e9e9e9;
+        }
+
+        /* Utility */
+        .loading-text {
+            color: var(--secondary-color);
+            font-style: italic;
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-bar">
+            <div class="logo">MED-AI</div>
+            <ul class="tabs">
+                <li class="tab-item active" data-tab="dashboard">Dashboard</li>
+                <li class="tab-item" data-tab="image-analysis">Image Analysis</li>
+                <li class="tab-item" data-tab="chatbot">Chatbot</li>
+                <li class="tab-item" data-tab="patient-search">Patient Search</li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="dashboard" class="active">
+            <h2>Dashboard Overview</h2>
+            <p class="loading-text" id="dashboard-loading">Loading patient statistics...</p>
+            <div class="cards-container">
+                </div>
+        </section>
+
+        <section id="image-analysis">
+            <h2>Image Analysis</h2>
+            <form id="image-analysis-form">
+                <label for="analysis-type">Analysis Type:</label>
+                <select id="analysis-type" name="image_type" required>
+                    <option value="X-ray">X-ray</option>
+                    <option value="Blood">Blood Smear</option>
+                </select>
+
+                <label for="image-file">Upload Image (JPG/PNG):</label>
+                <input type="file" id="image-file" name="image" accept="image/jpeg,image/png" required>
+
+                <button type="submit">Analyze Image</button>
+            </form>
+
+            <div id="image-analysis-result" style="display:none;">
+                <h3>Analysis Result</h3>
+                <p id="analysis-status"></p>
+                <div id="analysis-image-container">
+                    <img id="uploaded-image" src="" alt="Uploaded Image" style="display:none;">
+                </div>
+                <p><strong>Diagnosis:</strong> <span id="analysis-diagnosis"></span></p>
+                <p><strong>Confidence:</strong> <span id="analysis-confidence"></span></p>
+            </div>
+        </section>
+
+        <section id="chatbot">
+            <h2>AI Doctor Chat</h2>
+            <div id="chatbot-screen">
+                <div id="chat-window">
+                    <div class="message ai">Hello! I'm your AI Medical Assistant. How can I help you today?</div>
+                </div>
+                <form id="chat-input-form">
+                    <input type="text" id="chat-input" placeholder="Ask your medical questions..." required>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="patient-search">
+            <h2>Patient Search</h2>
+            <form id="patient-search-form">
+                <label for="patient-query">Search by Name or ID:</label>
+                <input type="text" id="patient-query" placeholder="Enter patient name or ID" required>
+                <button type="submit">Search Patient</button>
+            </form>
+
+            <div id="patient-search-result">
+                </div>
+        </section>
+    </div>
+
+    <script>
+        // JavaScript ⚙️
+        const BACKEND_URL = 'http://localhost:8000';
+        let chatSessionId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Tab Switching Logic ---
+            const tabs = document.querySelectorAll('.tab-item');
+            const sections = document.querySelectorAll('section');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetId = tab.getAttribute('data-tab');
+
+                    // Remove active from all tabs and sections
+                    tabs.forEach(t => t.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+
+                    // Add active to the clicked tab and corresponding section
+                    tab.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+
+                    // Run initial fetch functions for specific tabs
+                    if (targetId === 'dashboard') {
+                        fetchDashboardStats();
+                    }
+                    if (targetId === 'chatbot' && !chatSessionId) {
+                        // Initialize chat session on first view if needed
+                        // (Backend should handle session creation on first /chat call)
+                    }
+                });
+            });
+
+            // Load Dashboard on initial load
+            fetchDashboardStats();
+
+            // --- 1. Dashboard Function ---
+            async function fetchDashboardStats() {
+                const loadingElement = document.getElementById('dashboard-loading');
+                const cardsContainer = document.querySelector('#dashboard .cards-container');
+                cardsContainer.innerHTML = '';
+                loadingElement.style.display = 'block';
+
+                try {
+                    const response = await fetch(`${BACKEND_URL}/patient/stats`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const stats = await response.json();
+                    loadingElement.style.display = 'none';
+
+                    // Create Cards
+                    for (const key in stats) {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        card.innerHTML = `
+                            <h3>${key.replace(/_/g, ' ').toUpperCase()}</h3>
+                            <p>${stats[key]}</p>
+                        `;
+                        cardsContainer.appendChild(card);
+                    }
+                } catch (error) {
+                    console.error('Error fetching dashboard stats:', error);
+                    loadingElement.textContent = `Error: Could not load stats. Is the backend running at ${BACKEND_URL}?`;
+                }
+            }
+            
+            // --- 2. Image Analysis Function ---
+            const imageAnalysisForm = document.getElementById('image-analysis-form');
+            imageAnalysisForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(imageAnalysisForm);
+                const resultDiv = document.getElementById('image-analysis-result');
+                const statusP = document.getElementById('analysis-status');
+                const uploadedImage = document.getElementById('uploaded-image');
+                const diagnosisSpan = document.getElementById('analysis-diagnosis');
+                const confidenceSpan = document.getElementById('analysis-confidence');
+
+                resultDiv.style.display = 'block';
+                statusP.textContent = 'Processing image...';
+                uploadedImage.style.display = 'none';
+                diagnosisSpan.textContent = '...';
+                confidenceSpan.textContent = '...';
+
+                // Display the uploaded image immediately
+                const file = formData.get('image');
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        uploadedImage.src = e.target.result;
+                        uploadedImage.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+
+                try {
+                    const response = await fetch(`${BACKEND_URL}/analyze`, {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    statusP.textContent = 'Analysis Complete!';
+                    diagnosisSpan.textContent = result.diagnosis || 'N/A';
+                    confidenceSpan.textContent = result.confidence ? `${(result.confidence * 100).toFixed(2)}%` : 'N/A';
+
+                    // Note: If the backend returns the analyzed image URL, you would update the img src here.
+                    // For this simple example, we are just displaying the uploaded image.
+
+                } catch (error) {
+                    console.error('Error analyzing image:', error);
+                    statusP.textContent = `Error: Analysis failed. Is the backend running at ${BACKEND_URL}?`;
+                    diagnosisSpan.textContent = 'Failed';
+                    confidenceSpan.textContent = 'Failed';
+                }
+            });
+
+            // --- 3. Chatbot Function ---
+            const chatInputForm = document.getElementById('chat-input-form');
+            const chatWindow = document.getElementById('chat-window');
+            const chatInput = document.getElementById('chat-input');
+            
+            function appendMessage(sender, text) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                messageDiv.textContent = text;
+                chatWindow.appendChild(messageDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
+            }
+
+            chatInputForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const userMessage = chatInput.value.trim();
+                if (!userMessage) return;
+
+                appendMessage('user', userMessage);
+                chatInput.value = '';
+
+                // Add typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'message ai typing-indicator';
+                typingIndicator.textContent = 'AI is typing...';
+                chatWindow.appendChild(typingIndicator);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+
+                try {
+                    const response = await fetch(`${BACKEND_URL}/chat`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            session_id: chatSessionId, // Will be null on first call
+                            message: userMessage,
+                        }),
+                    });
+
+                    // Remove typing indicator
+                    chatWindow.removeChild(typingIndicator);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    // Update session_id if provided by the backend
+                    if (result.session_id) {
+                        chatSessionId = result.session_id;
+                    }
+
+                    appendMessage('ai', result.response || 'Sorry, I could not process your request.');
+
+                } catch (error) {
+                    console.error('Error during chat:', error);
+                    // Remove typing indicator if it's still there
+                    const indicator = chatWindow.querySelector('.typing-indicator');
+                    if (indicator) chatWindow.removeChild(indicator);
+
+                    appendMessage('ai', 'Error: Could not connect to the AI Doctor. Please check the backend.');
+                }
+            });
+
+            // --- 4. Patient Search Function ---
+            const patientSearchForm = document.getElementById('patient-search-form');
+            const patientSearchResultDiv = document.getElementById('patient-search-result');
+
+            patientSearchForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const query = document.getElementById('patient-query').value.trim();
+                patientSearchResultDiv.innerHTML = `<p class="loading-text">Searching for patient: **${query}**...</p>`;
+
+                try {
+                    const response = await fetch(`${BACKEND_URL}/patient/search?query=${encodeURIComponent(query)}`);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const patients = await response.json();
+
+                    renderPatientTable(patients);
+
+                } catch (error) {
+                    console.error('Error searching patients:', error);
+                    patientSearchResultDiv.innerHTML = `<p style="color:red;">Error: Could not search patients. Is the backend running at ${BACKEND_URL}?</p>`;
+                }
+            });
+
+            function renderPatientTable(patients) {
+                if (!patients || patients.length === 0) {
+                    patientSearchResultDiv.innerHTML = '<p>No patients found matching the criteria.</p>';
+                    return;
+                }
+
+                // Assume all patients have the same keys for headers
+                const headers = Object.keys(patients[0]);
+                
+                let tableHTML = '<table><thead><tr>';
+                headers.forEach(header => {
+                    tableHTML += `<th>${header.toUpperCase().replace(/_/g, ' ')}</th>`;
+                });
+                tableHTML += '</tr></thead><tbody>';
+
+                patients.forEach(patient => {
+                    tableHTML += '<tr>';
+                    headers.forEach(header => {
+                        tableHTML += `<td>${patient[header]}</td>`;
+                    });
+                    tableHTML += '</tr>';
+                });
+
+                tableHTML += '</tbody></table>';
+                patientSearchResultDiv.innerHTML = tableHTML;
+            }
+
+        });
+    </script>
+</body>
+</html>
